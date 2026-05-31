@@ -159,4 +159,50 @@
         </span> Montagem de Móveis
         MontaTech</a>
 
-        <a href="https://claudio-rocagem-saquarema.surge.sh" target="_blank" class="link-btn"><span>🌿</span> Roç
+        <a href="https://claudio-rocagem-saquarema.surge.sh" target="_blank" class="link-btn"><span>🌿</span> Roçagem Profissional</a>
+
+        <a href="https://wa.me/5522992356039?text=Olá,%20Claudio!%20Vi%20seu%20perfil%20e%20gostaria%20de%20falar%20com%20você." target="_blank" class="link-btn"><span>💬</span> Fale Comigo no WhatsApp</a>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        const chars = '0101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
+        const fontSize = 16;
+        let columns;
+        let rainDrops = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            columns = canvas.width / fontSize;
+
+            const oldLength = rainDrops.length;
+            if (oldLength < columns) {
+                for (let i = oldLength; i < columns; i++) {
+                    rainDrops[i] = Math.floor(Math.random() * canvas.height / fontSize);
+                }
+            }
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(8, 4, 13, 0.06)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#a855f7';
+            ctx.font = fontSize + 'px monospace';                               
+            for (let i = 0; i < columns; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];                   ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                                                        if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {                                                     rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }                                   }
+                                                setInterval(drawMatrix, 30);
+    </script>
+
+</body>                                 </html>
