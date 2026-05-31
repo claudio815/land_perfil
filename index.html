@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <!-- Meta tag crucial para garantir que a página seja totalmente responsiva no celular -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claudio | Perfil Profissional</title>
+
+    <!-- Importação de fontes modernas que combinam com a estética Tech -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================================================================
+       1. VARIÁVEIS DE COR E IDENTIDADE VISUAL
+       ================================================================ */
+        :root {
+    --bg-matrix: #0a0712;         /* Fundo preto "carbono" com um toque sutil de roxo */
+    --clr-card: rgba(17, 12, 28, 0.7); /* Cartão ligeiramente mais escuro para destacar o texto */
+    --clr-border: rgba(168, 85, 247, 0.2);
+    --clr-accent: #bf7af0;        /* Roxo mais nítido e elegante para leitura */
+    --clr-accent-deep: #7c2d12;   /* Transição de gradiente mais sofisticada */
+    --text-hi: #ffffff;           /* Branco puro para títulos */
+    --text-mid: #cbd5e1;          /* Cinza claro azulado (Slate) que cansa muito menos os olhos no PC */
+}
+
+
+        /* Reset básico de margens */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-matrix);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        /* ================================================================
+       2. CANVAS DA MATRIX (ANIMAÇÃO DE FUNDO)
+       ================================================================ */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Garante que fica atrás de tudo */
+        }
+
+        /* ================================================================
+       3. ESTRUTURA DO CARTÃO DO PERFIL (RESPONSIVO)
+       ================================================================ */
+        .profile-container {
+            width: 100%;
+            max-width: 400px; /* Largura máxima ideal estilo Telegram/Bio Links */
+            background: var(--clr-card);
+            backdrop-filter: blur(12px); /* Efeito de desfoque estilo iOS/Premium */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--clr-border);
+            border-radius: 24px;
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(147, 51, 234, 0.15);
+        }
+
+        /* Moldura da Foto de Perfil com Brilho Glow */
+        .profile-pic-container {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        .profile-pic-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Não deixa a foto distorcer */
+            border-radius: 50%;
+            border: 3px solid var(--clr-accent);
+            box-shadow: 0 0 20px rgba(192, 132, 252, 0.6);
+        }
+
+        /* Nome do Perfil */
+        .profile-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-hi);
+            margin-bottom: 0.4rem;
+            background: linear-gradient(135deg, #ffffff 40%, var(--clr-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Biografia / Descrição */
+        .profile-bio {
+            font-size: 0.95rem;
+            color: var(--text-mid);
+            font-weight: 300;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+            max-width: 300px;
+        }
+
+        /* ================================================================
+       4. BOTÕES DE LINKS COM ANIMAÇÃO HOVER
+       ================================================================ */
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.15) 0%, rgba(124, 58, 237, 0.25) 100%);
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Último botão não ganha margem de baixo */
+        .link-btn:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Animação ao passar o dedo no celular ou mouse no computador */
+        .link-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, var(--clr-accent-deep) 0%, #7c3aed 100%);
+            border-color: var(--clr-accent);
+            box-shadow: 0 0 25px rgba(192, 132, 252, 0.6);
+            letter-spacing: 0.5px;
+        }
+
+        .link-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas que desenha o fundo animado estilo Matrix -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- CONTAINER DO SEU PERFIL -->
+    <div class="profile-container">
+
+        <!-- 📸 SUA FOTO DE PERFIL: Caminho relativo correto -->
+        <div class="profile-pic-container">
+            <img src="img/perfil.png" alt="Sua Foto">
+        </div>
+
+        <!-- ✍️ SEU NOME -->
+        <div class="profile-name">Claudio Marinho</div>
+
+        <!-- 📝 SUA BIOGRAFIA -->
+        <div class="profile-bio">
+            Higenização hospitalar & Estudante de programação. Soluções direto do terminal Linux, Termux.
+        </div>
+
+        <!-- 🌐 SEUS BOTÕES DE LINKS (Adicione ou mude os links e textos aqui) -->
+        <a href="https://claudio-curriculo.surge.sh" target="_blank" class="link-btn">⚡  Curriculo  Online</a>
+
+        <a href="https://claudio815.github.io/curso-streamlit/" target="_blank" class="link-btn">🔮 Curso Programação streamlit </a>
+
+        <a href="https://claudio-rocagem-saquarema.surge.sh" target="_blank" class="link-btn">🌿 Roçagem Profissional</a>
+
+        <!-- Link corrigido para evitar falhas de redirecionamento no celular -->
+        <a href="https://wa.me/5522992356039?text=Olá,%20Claudio!%20Vi%20seu%20perfil%20e%20gostaria%20de%20falar%20com%20você." target="_blank" class="link-btn">💬 Fale Comigo no WhatsApp</a>
+
+    </div>
+
+    <!-- ================================================================
+   5. SCRIPT DA MATRIX ROXA (Leve e Automático)
+   ================================================================ */ -->
+    <script>
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        const chars = '0101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789⚡⚙️'.split('');
+        const fontSize = 16;
+        let columns;
+        let rainDrops = [];
+
+        // Função para deixar o fundo sempre do tamanho correto da tela e recalcular colunas de forma responsiva
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            columns = canvas.width / fontSize;
+
+            // Reajusta o array de quedas dinamicamente mantendo as posições anteriores se houver
+            const oldLength = rainDrops.length;
+            if (oldLength < columns) {
+                for (let i = oldLength; i < columns; i++) {
+                    rainDrops[i] = Math.floor(Math.random() * canvas.height / fontSize);
+                }
+            }
+        }
+
+        // Inicializa o tamanho inicial do canvas
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawMatrix() {
+            // Cria o efeito de rastro escuro gradual
+            ctx.fillStyle = 'rgba(8, 4, 13, 0.06)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Definição da cor roxa neon dos caracteres
+            ctx.fillStyle = '#a855f7';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < columns; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                // Reseta a queda quando chega no fim da tela baseado em uma chance aleatória
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        }
+
+        // Controla a velocidade da animação (30 milissegundos)
+        setInterval(drawMatrix, 30);
+    </script>
+
+</body>
+</html>
